@@ -33,6 +33,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 public class CommentControllerTest {
 
+    private static int SIZE = 1000;
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -54,7 +56,7 @@ public class CommentControllerTest {
     @Test
     public void create() throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < SIZE; i++) {
             UUID uuid = UUID.randomUUID();
             CommentDto commentDto = new CommentDto("create comment" + uuid);
             MvcResult mvcResult = mockMvc.perform(post("/comments")
@@ -73,7 +75,7 @@ public class CommentControllerTest {
                 Assert.assertNull(notificationRepository.findByCommentId(error.getId()));
             }
         }
-        System.out.println("Success save comment percentage: " + calculatePercent(50, commentRepository.count()));
+        System.out.println("Success save comment percentage: " + calculatePercent(SIZE, commentRepository.count()));
         System.out.println("Success delivered notifications percentage: " + calculatePercent(notificationRepository.count(), notificationRepository.countByDelivered(true)));
     }
 
