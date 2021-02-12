@@ -1,0 +1,21 @@
+version: "3"
+services:
+  demo:
+    image: demo
+    ports:
+      - "8080:8080"
+    networks:
+      - test-mysql
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    image: mysql:8
+    networks:
+      - test-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bootdb
+
+networks:
+  test-mysql:
